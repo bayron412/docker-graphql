@@ -23,7 +23,8 @@ jobs:
       with:
         major_pattern: "major:"
         minor_pattern: "minor:"
-        format: "${major}.${minor}.${patch}-prerelease${increment}"
+#         format: "${major}.${minor}.${patch}-prerelease${increment}"
+        format: "${major}.${minor}.${patch}"
       id: version
   
     - name: Docker Login
@@ -34,17 +35,20 @@ jobs:
         
       run: |
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-        echo "New version: $NEW_VERSION !!!!!"
         
-#     - name: Build Docker Image
-#       run: |
-#         docker build -t bayron412/docker-graphql:0.0.1 .
-#         docker build -t bayron412/docker-graphql:latest .
+    - name: Build Docker Image
+      env:
+        NEW_VERSION: ${{ steps.version.outputs.version }}
+      run: |
+        docker build -t bayron412/docker-graphql:$NEW_VERSION .
+        docker build -t bayron412/docker-graphql:latest .
     
-#     - name: Push Docker Image
-#       run: |
-#         docker push bayron412/docker-graphql:0.0.1
-#         docker push bayron412/docker-graphql:latest
+    - name: Push Docker Image
+      env:
+        NEW_VERSION: ${{ steps.version.outputs.version }}
+      run: |
+        docker push bayron412/docker-graphql:$NEW_VERSION
+        docker push bayron412/docker-graphql:latest
         
     
 #     - name: Build the Docker image
