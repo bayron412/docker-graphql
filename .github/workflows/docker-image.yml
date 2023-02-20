@@ -36,19 +36,19 @@ jobs:
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
         echo "new version: $NEW_VERSION !!!!"
         
-#     - name: Build Docker Image
-#       env:
-#         NEW_VERSION: ${{ steps.version.outputs.version }}
-#       run: |
-#         docker build -t bayron412/docker-graphql:$NEW_VERSION .
-#         docker build -t bayron412/docker-graphql:latest .
+    - name: Build Docker Image
+      env:
+        NEW_VERSION: ${{ steps.version.outputs.version }}
+      run: |
+        docker build -t bayron412/docker-graphql:$NEW_VERSION .
+        docker build -t bayron412/docker-graphql:latest .
     
-#     - name: Push Docker Image
-#       env:
-#         NEW_VERSION: ${{ steps.version.outputs.version }}
-#       run: |
-#         docker push bayron412/docker-graphql:$NEW_VERSION
-#         docker push bayron412/docker-graphql:latest
+    - name: Push Docker Image
+      env:
+        NEW_VERSION: ${{ steps.version.outputs.version }}
+      run: |
+        docker push bayron412/docker-graphql:$NEW_VERSION
+        docker push bayron412/docker-graphql:latest
         
     
 #     - name: Build the Docker image
